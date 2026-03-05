@@ -13,13 +13,6 @@ window.onbeforeunload = function() {
 };
 
 
-const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-
-if (currentUser) {
-    const nameDisplay = document.getElementById('username-display');
-    nameDisplay.innerHTML = `<i class="bi bi-person-circle"></i> ${currentUser.firstName} ${currentUser.lastName}`;
-}
-
 let questionsList = []; 
 let currentIndex = 0;
 let timeLeft = 90;
