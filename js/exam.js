@@ -13,6 +13,7 @@ window.onbeforeunload = function() {
 };
 
 
+
 const currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
 if (currentUser) {
