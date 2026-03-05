@@ -1,0 +1,33 @@
+[
+    {
+        "id": 1,
+        "text": "What is the capital of France?",
+        "options": ["London", "Berlin", "Paris", "Madrid"],
+        "correctAnswerIndex": 2
+    },
+    {
+        "id": 2,
+        "text": "I wish I __ those words. But now it's too late.",
+        "options": ["not having said", "have never said", "never said", "had never said"],
+        "correctAnswerIndex": 3
+    },
+    {
+        "id": 3,
+        "text": "Which language is used for web logic?",
+        "options": ["HTML", "CSS", "JavaScript", "SQL"],
+        "correctAnswerIndex": 2
+    },
+    {
+        "id": 4,
+        "text": "What is the result of 5 * 10?",
+        "options": ["15", "50", "500", "0.5"],
+        "correctAnswerIndex": 1
+    },
+    {
+        "id": 5,
+        "text": "Which company developed Windows OS?",
+        "options": ["Apple", "Microsoft", "Google", "IBM"],
+        "correctAnswerIndex": 1
+    }
+    
+]
