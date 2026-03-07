@@ -113,7 +113,16 @@ function finishExam() {
             score++;
         }
     }
-    alert(`Finished! Your Score: ${score} / ${questionsList.length}`); //redirect* -- store in local storage*
+    console.log("Storing result:", score, questionsList.length, currentUser);
+    localStorage.setItem('examResult', JSON.stringify({
+    score,
+    total: questionsList.length,
+    passed: score >= 3,
+    user: currentUser || { firstName: "Guest", lastName: "" } 
+}));
+
+window.onbeforeunload = null;
+window.location.replace("result.html");
 }
 
 document.getElementById('nextBtn').onclick = function() {
