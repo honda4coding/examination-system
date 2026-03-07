@@ -25,6 +25,7 @@ let questionsList = [];
 let currentIndex = 0;
 let timeLeft = 90;
 let timerInterval; 
+const markedQuestions = new Map(); // index -> { answered: boolean }
 
 async function loadExam() {
     try {
@@ -63,6 +64,10 @@ function displayQuestion() {
         
         btn.onclick = function() {
             currentQ.userAnswer = i; 
+            if (markedQuestions.has(currentIndex)) {
+                markedQuestions.set(currentIndex, { answered: true });
+                renderMarkedList();
+                }
             displayQuestion(); 
         };
         
@@ -78,6 +83,8 @@ function displayQuestion() {
         document.getElementById('nextBtn').style.display = "block";
         document.getElementById('submitBtn').style.display = "none";
     }
+
+    syncMarkButton();
 }
 
 function startTimer() {
@@ -91,7 +98,7 @@ function startTimer() {
             timerBar.style.width = `${(timeLeft / 90) * 100}%`; 
         } else {
             clearInterval(timerInterval);
-            alert("Time's Up!");
+            alert("Time's Up!"); //redirect*
             finishExam();
         }
     }, 1000);
@@ -106,10 +113,14 @@ function finishExam() {
             score++;
         }
     }
-    alert(`Finished! Your Score: ${score} / ${questionsList.length}`);
+    alert(`Finished! Your Score: ${score} / ${questionsList.length}`); //redirect* -- store in local storage*
 }
 
 document.getElementById('nextBtn').onclick = function() {
+    if (markedQuestions.has(currentIndex) && questionsList[currentIndex].userAnswer === undefined) {
+        markedQuestions.set(currentIndex, { answered: false });
+        renderMarkedList();
+    }
     currentIndex++;
     displayQuestion();
 };
@@ -120,5 +131,47 @@ document.getElementById('prevBtn').onclick = function() {
 };
 
 document.getElementById('submitBtn').onclick = finishExam;
+
+function syncMarkButton() {
+    const markBtn = document.getElementById('markBtn');
+    const isMarked = markedQuestions.has(currentIndex);
+    markBtn.className = `btn btn-sm shadow-sm ${isMarked ? "btn-secondary" : "btn-success"}`;
+    markBtn.innerHTML = isMarked
+        ? `<i class="bi bi-bookmark-x"></i> Unmark`
+        : `<i class="bi bi-bookmark-check"></i> Mark`;
+}
+
+document.getElementById('markBtn').onclick = function() {
+    if (markedQuestions.has(currentIndex)) {
+        markedQuestions.delete(currentIndex);
+    } else {
+        const answered = questionsList[currentIndex].userAnswer !== undefined;
+        markedQuestions.set(currentIndex, { answered });
+    }
+    renderMarkedList();
+    syncMarkButton();
+};
+
+function renderMarkedList() {
+    const markedList = document.getElementById('marked-list');
+    markedList.innerHTML = "";
+
+    if (markedQuestions.size === 0) {
+        markedList.innerHTML = `<small class="text-muted">No marked questions yet.</small>`;
+        return;
+    }
+
+    markedQuestions.forEach(({ answered }, index) => {
+        const item = document.createElement('button');
+        item.className = "list-group-item list-group-item-action d-flex justify-content-between align-items-center";
+        item.innerHTML = `
+            <span>Question ${index + 1}</span>
+            <span class="badge rounded-pill ${answered ? "bg-success" : "bg-warning text-dark"}">
+                ${answered ? "Answered" : "Skipped"}
+            </span>`;
+        item.onclick = () => { currentIndex = index; displayQuestion(); };
+        markedList.appendChild(item);
+    });
+}
 
 loadExam();
