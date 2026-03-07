@@ -1,0 +1,217 @@
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --pass-color: #00c896;
+            --fail-color: #ff4d6d;
+            --bg: #0d0d0d;
+            --card-bg: #161616;
+            --text: #f0f0f0;
+            --muted: #888;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* animated background grid */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            z-index: 0;
+        }
+
+        .glow {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.15;
+            z-index: 0;
+            transition: background 1s ease;
+        }
+        .glow-1 { top: -150px; left: -150px; }
+        .glow-2 { bottom: -150px; right: -150px; }
+
+        /* card */
+        .result-wrapper {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 520px;
+            padding: 1.5rem;
+            animation: slideUp .6s cubic-bezier(.22,1,.36,1) both;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 3rem 2.5rem;
+            border: 1px solid rgba(255,255,255,.08);
+            box-shadow: 0 40px 80px rgba(0,0,0,.6);
+            text-align: center;
+        }
+
+        /* icon circle */
+        .icon-ring {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.75rem;
+            font-size: 2.8rem;
+            border: 3px solid currentColor;
+            animation: popIn .5s .3s cubic-bezier(.34,1.56,.64,1) both;
+        }
+
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(.5); }
+            to   { opacity: 1; transform: scale(1); }
+        }
+
+        .icon-ring.pass { color: var(--pass-color); background: rgba(0,200,150,.08); }
+        .icon-ring.fail { color: var(--fail-color); background: rgba(255,77,109,.08); }
+
+        /* title */
+        h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            line-height: 1;
+            margin-bottom: .5rem;
+            animation: fadeIn .5s .4s both;
+        }
+        h1.pass { color: var(--pass-color); }
+        h1.fail { color: var(--fail-color); }
+
+        .subtitle {
+            color: var(--muted);
+            font-size: .95rem;
+            margin-bottom: 2.5rem;
+            animation: fadeIn .5s .45s both;
+        }
+
+        /* score ring */
+        .score-ring-wrap {
+            position: relative;
+            width: 160px;
+            height: 160px;
+            margin: 0 auto 2rem;
+            animation: fadeIn .5s .5s both;
+        }
+
+        .score-ring-wrap svg {
+            transform: rotate(-90deg);
+            width: 160px;
+            height: 160px;
+        }
+
+        .score-ring-wrap svg circle {
+            fill: none;
+            stroke-width: 8;
+            stroke-linecap: round;
+        }
+
+        .ring-bg   { stroke: rgba(255,255,255,.06); }
+        .ring-fill { stroke-dasharray: 408; stroke-dashoffset: 408; transition: stroke-dashoffset 1.2s .6s cubic-bezier(.4,0,.2,1); }
+        .ring-fill.pass { stroke: var(--pass-color); }
+        .ring-fill.fail { stroke: var(--fail-color); }
+
+        .score-label {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .score-num {
+            font-family: 'Syne', sans-serif;
+            font-size: 2.4rem;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .score-total {
+            font-size: .8rem;
+            color: var(--muted);
+            margin-top: .25rem;
+        }
+
+        /* meta row */
+        .meta-row {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+            animation: fadeIn .5s .6s both;
+        }
+
+        .meta-item {
+            background: rgba(255,255,255,.04);
+            border: 1px solid rgba(255,255,255,.07);
+            border-radius: 12px;
+            padding: .75rem 1.25rem;
+            font-size: .85rem;
+        }
+
+        .meta-item span {
+            display: block;
+            color: var(--muted);
+            font-size: .72rem;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            margin-bottom: .2rem;
+        }
+
+        /* button */
+        .btn-retry {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            background: linear-gradient(135deg, #3b82f6, #6366f1);
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            padding: .85rem 2.5rem;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform .2s, box-shadow .2s;
+            animation: fadeIn .5s .7s both;
+            box-shadow: 0 8px 24px rgba(99,102,241,.3);
+        }
+
+        .btn-retry:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(99,102,241,.45);
+            color: #fff;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
