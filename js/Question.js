@@ -4,8 +4,7 @@ class Question {
         this.text = text;
         this.options = options;
         this.correctIndex = correctAnswerIndex;
-        this.userAnswer = null; 
-        this.isMarked = false;
+        this.userAnswer = undefined;    
     }
 
     isCorrect() {

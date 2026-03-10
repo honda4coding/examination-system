@@ -1,55 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <title>Exam System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 </head>
-
 <body class="bg-light">
 <div id="main-container" class="container py-4">
 
-    <header id="exam-top-bar" class="card p-3 mb-4 shadow-sm border-0">
-        <div class="d-flex justify-content-between align-items-start">
-            <div id="user-details">
-                <h5 id="username-display" class="mb-1 text-secondary">
-                    <i class="bi bi-person-circle"></i> 
-                </h5>
-                <small id="q-counter" class="text-muted fw-bold"></small>
+<div class="container mt-5">
+    <div class="card p-3 shadow-sm mb-4 border-0">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h5 id="username-display" class="mb-0 text-secondary">
+                        <i class="bi bi-person-circle"></i> Student
+                </h5>                
+                <small id="q-counter" class="text-muted"></small>
             </div>
-
-            <div id="timer-container" class="text-center">
-                <p class="mb-0 text-muted small fw-bold text-uppercase">Time Remaining</p>
-                <h3 id="timer-display" class="text-danger fw-bold mb-0"></h3>
+            <div class="text-center">
+                <p class="mb-0 text-muted small">Time Remaining</p>
+                <h3 id="timer-display" class="text-danger fw-bold"></h3>
             </div>
         </div>
-        <div id="progress-wrapper" class="progress mt-3" style="height: 8px;">
+        <div class="progress mt-3" style="height: 8px;">
             <div id="timer-progress" class="progress-bar bg-primary" style="width: 100%"></div>
         </div>
-    </header>
+    </div>
 
-    <main id="exam-content-wrapper" class="row g-4">
-        
-        <section id="main-content" class="col-md-8">
-            <div class="card p-4 shadow-sm border-0" style="min-height: 450px;">
-                
-                <div id="question-header" class="d-flex justify-content-between align-items-center mb-4">
-                    <h4 id="question-title" class="text-primary fw-bold mb-0">Question 1</h4>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card p-4 shadow-sm border-0 mb-4" style="min-height: 400px;">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h5 id="question-title" class="text-primary fw-bold mb-0">Question 1</h5>
                     <button id="markBtn" class="btn btn-success btn-sm shadow-sm">
                         <i class="bi bi-bookmark-check"></i> Mark
                     </button>
                 </div>
-
-                <div id="question-text-area" class="p-4 bg-white rounded border mb-4">
-                    <p id="question-text" class="fs-5 mb-0 fw-medium">
-                    </p>
+                
+                <div class="p-4 bg-light rounded border my-4">
+                    <p id="question-text" class="fs-5 mb-0 fw-medium"></p>
                 </div>
 
-                <div id="options-wrapper">
-                    <div id="options-container" class="list-group">
-                        </div>
+                <div id="options-container" class="list-group">
+                    </div>
+                
+                <div class="d-flex justify-content-end mt-4 gap-2">
+                    <button id="prevBtn" class="btn btn-outline-secondary px-4 border-2">Previous</button>
+                    <button id="nextBtn" class="btn btn-success px-4">Next</button>
+                    <button id="submitBtn" class="btn btn-primary px-4" style="display: none;">Submit</button>
                 </div>
 
                 <footer id="navigation-controls" class="d-flex justify-content-end mt-auto pt-4 gap-2">
@@ -58,24 +57,20 @@
                     <button id="submitBtn" class="btn btn-primary px-4" style="display: none;">Submit</button>
                 </footer>
             </div>
-        </section>
-
-        <aside id="marked-questions-section" class="col-md-4">
+        </div>
+<!-- Mark section -->
+        <div class="col-md-4">
             <div class="card p-3 shadow-sm border-0">
-                <h6 class="fw-bold text-warning mb-3">
-                    <i class="bi bi-bookmarks-fill"></i> Marked Questions
-                </h6>
-                <hr class="mt-0">
+                <h6 class="fw-bold text-warning">Marked Questions</h6>
+                <hr>
                 <div id="marked-list" class="list-group list-group-flush">
                     </div>
             </div>
-        </aside>
-
-    </main>
-
+        </div>
+    </div>
 </div>
-    <script src="js/Question.js"></script>
-    <script src="js/exam.js"></script>
-</body>
 
+<script src="js/exam.js"></script>
+<script src="js/Question.js"></script>
+</body>
 </html>
