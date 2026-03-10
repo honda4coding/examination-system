@@ -1,5 +1,5 @@
 class Question {
-    constructor({ id, text, options, correctAnswerIndex }) {
+    constructor( id, text, options, correctAnswerIndex ) {
         this.id = id;
         this.text = text;
         this.options = options;
