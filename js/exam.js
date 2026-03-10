@@ -35,6 +35,7 @@ async function getQuestions() {
         
         allQuestions.sort(() => Math.random() - 0.5);
 
+        initSidebar(); // Sidebar Commented
         startTimer(30);
         displayQuestion(currentQuestionIndex);
     } catch (error) {
@@ -54,13 +55,13 @@ function displayQuestion(index) {
     const user = JSON.parse(localStorage.getItem('currentUser'));
     if (user) {
         document.getElementById('username-display').innerHTML = 
-            <i class="bi bi-person-circle"></i> ${user.firstName} ${user.lastName};
+            `<i class="bi bi-person-circle"></i> ${user.firstName} ${user.lastName}`;
     }
 
     // Update Question Title and Text
-    titleElement.innerText = Question ${index + 1};
+    titleElement.innerText = `Question ${index + 1}`;
     textElement.innerText = question.text;
-    counterElement.innerText = ${index + 1} of ${allQuestions.length};
+    counterElement.innerText = `${index + 1} of ${allQuestions.length}`;
 
     // Clear previous options and generate new ones
     optionsContainer.innerHTML = ""; 
@@ -86,6 +87,7 @@ for (let i = 0; i < question.options.length; i++) {
     optionsContainer.appendChild(btn);
 }
 
+    updateMarkBtn(); // Sidebar Commented
     questionNav(index);
     preventCheating();
 }
@@ -121,6 +123,73 @@ document.getElementById('prevBtn').onclick = () => {
     }
 };
 
+// Sidebar & Mark Logic Commented
+function initSidebar() {
+    const markedList = document.getElementById('marked-list');
+    markedList.innerHTML = ""; 
+
+    for (let i = 0; i < allQuestions.length; i++) {
+        const q = allQuestions[i];
+
+        const item = document.createElement('div');
+        item.id = `mark-${q.id}`; 
+        item.className = "list-group-item list-group-item-action d-flex justify-content-between align-items-center mb-2 border rounded d-none";
+        
+        item.innerHTML = `
+            <span class="fw-bold" style="cursor:pointer">Question ${i + 1}</span>
+            <span class="close-x" style="cursor: pointer; font-size: 1.2rem;">×</span>
+        `;
+
+        item.addEventListener('click', function(e) {
+            if (e.target.classList.contains('close-x')) {
+                q.isMarked = false; 
+                item.classList.add('d-none');
+                
+                if (i === currentQuestionIndex) {
+                    updateMarkBtn();
+                }
+            } 
+            else {
+                currentQuestionIndex = i;
+                displayQuestion(currentQuestionIndex);
+            }
+        });
+
+        markedList.appendChild(item);
+    }
+}
+
+function updateMarkBtn() {
+    const markBtn = document.getElementById('markBtn');
+    const question = allQuestions[currentQuestionIndex];
+
+    if (question.isMarked) {
+        markBtn.innerHTML = '<i class="bi bi-bookmark-fill"></i> Unmark';
+    } else {
+        markBtn.innerHTML = '<i class="bi bi-bookmark-check"></i> Mark';
+    }
+}
+
+function toggleMark() {
+    const question = allQuestions[currentQuestionIndex];
+    
+    question.isMarked = !question.isMarked;
+
+    const sideItem = document.getElementById(`mark-${question.id}`);
+    
+    if (sideItem) {
+        if (question.isMarked) {
+            sideItem.classList.remove('d-none');
+        } else {
+            sideItem.classList.add('d-none');
+        }
+    }
+
+    updateMarkBtn();
+}
+document.getElementById('markBtn').onclick = toggleMark;
+
+
 
 function startTimer(timeInSeconds) {
     let timeLeft = timeInSeconds;
@@ -132,11 +201,11 @@ function startTimer(timeInSeconds) {
         let minutes = Math.floor(timeLeft / 60);
         let seconds = timeLeft % 60;
 
-        timerDisplay.innerText = 00:${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds};
+        timerDisplay.innerText = `00:${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
 
         // Update Visual Progress Bar
         let progressWidth = (timeLeft / totalDuration) * 100;
-        progressBar.style.width = ${progressWidth}%;
+        progressBar.style.width = `${progressWidth}%`;
 
         if (timeLeft <= 0) {
             clearInterval(timerInterval);
@@ -158,9 +227,9 @@ function calculateScore() {
     }
 
     const finalResult = {
-         score: score,
-          total: allQuestions.length
-         };
+        score: score,
+        total: allQuestions.length
+        };
     localStorage.setItem('lastResult', JSON.stringify(finalResult));
     return finalResult;
 }
